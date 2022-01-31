@@ -2,14 +2,21 @@ import { useEffect, useState } from 'react'
 import protobuf from 'protobufjs'
 const { Buffer } = require('buffer/')
 
+const emojis = {
+  '': '',
+  'up': '🔺',
+  'down': '🔻',
+}
 
-function formatPrice(price){
+
+function formatPrice(price) {
   return `£${price.toFixed(2)}`;
 }
 
 function App() {
-
-  const[stock, setStock] = useState(null)
+  
+  const [stock, setStock] = useState(null);
+  const [direction, setDirection] = useState('');
 
   useEffect(() => {
     // connects to yahoo api
@@ -36,18 +43,28 @@ function App() {
       ws.onmessage = function incoming(message) {
         // message.data
         const next = Yaticker.decode(new Buffer(message.data, 'base64'));
-        setStock(next)
+        setStock((current) => {
+          if (current) {
+            const nextDirection = current.price < next.price ? 'up' : current.price > next.price ? 'down' : '';
+            if (nextDirection) {
+              setDirection(nextDirection);
+            }
+          }
+          return next;
+        });
       };
     });
-
-
   }, []);
 
+
+
+
+
+
   return (
-    <div >
-      <h1>Stocks</h1>
-      {stock && <h2>{formatPrice(stock.price)}</h2>}
-      
+    <div className='stock' >
+      {stock && <h2>{stock.id}{formatPrice(stock.price)} {emojis[direction]}</h2>}
+
     </div>
   );
 }
