@@ -20,6 +20,7 @@ function App() {
 
   useEffect(() => {
     // connects to yahoo api
+    // const params = new URLSearchParams(window.location.search)
     const ws = new WebSocket('wss://streamer.finance.yahoo.com');
     const root = protobuf.load('./YPricingData.proto', (error, root) => {
       if (error) {
@@ -33,6 +34,7 @@ function App() {
         console.log('connected');
         ws.send(JSON.stringify({
           subscribe: ['GME']
+          // subscribe: [(params.get('symbol') || 'GME').toUpperCase()],
         }));
       };
 
@@ -54,6 +56,7 @@ function App() {
         });
       };
     });
+    
   }, []);
 
 
@@ -63,7 +66,7 @@ function App() {
 
   return (
     <div className='stock' >
-      {stock && <h2>{stock.id}{formatPrice(stock.price)} {emojis[direction]}</h2>}
+      {stock && <h2 className={direction}>{stock.id}{formatPrice(stock.price)} {emojis[direction]}</h2>}
 
     </div>
   );

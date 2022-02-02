@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 10vmin;
+  font-size: 5vmin;
   width: 100vw;
   height: 100vh;
   overflow: none;
@@ -33,8 +33,9 @@ code {
   width: 100%;
   margin: 0;
   position:absolute;
-  /* left: 120%;
-  animation: scroll 5s infinite linear; */
+  left: 120%;
+  animation: scroll 5s infinite linear;
+  
 }
 
 *{
@@ -50,5 +51,14 @@ code {
   to{
     left: -100%;
 }
+}
+
+.up{
+  color: green;
+
+}
+
+.down{
+  color: red;
 }
 
